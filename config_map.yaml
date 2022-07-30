@@ -1,0 +1,10 @@
+kind: ConfigMap 
+apiVersion: v1 
+metadata:
+  name: mysql-config-map 
+data:
+  # Configuration values can be set as key-value properties
+  database: Customer-db1
+  mysql-host: mysql
+  mysql-port: "3306"
+  

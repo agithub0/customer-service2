@@ -1,0 +1,503 @@
+openapi: 3.0.2
+info:
+  title: Swagger Customer Store - OpenAPI 3.0
+  description: |-
+    This is a Customer Store Server based on the OpenAPI 3.0 specification.
+
+
+  termsOfService: http://swagger.io/terms/
+  contact:
+    email: api@gmail.com
+  license:
+    name: Apache 2.0
+    url: http://www.apache.org/licenses/LICENSE-2.0.html
+  version: 1.0.11
+externalDocs:
+  description: Find out more about Swagger
+  url: http://swagger.io
+servers:
+  - url: /localhost
+paths:
+  /customers/{customerId}:
+    put:
+      tags:
+        - customer
+      summary: Update an existing Customer
+      description: Update an existing customer by Id
+      operationId: updateCustomer
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update an existent Customer in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+    get:
+      tags:
+        - customer
+      summary: Find customer by customer id
+      description: Provide the customer id in the path variable
+      operationId: findPetsByStatus
+      parameters:
+        - name: customerId
+          in: path
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '400':
+          description: Invalid status value
+    delete:
+      tags:
+        - customer
+      summary: delete customer by customer id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: customer with given id does not exist
+  /customers:
+    get:
+      tags:
+        - customer
+      summary: Get all customers
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+  /customer:
+    post:
+      tags:
+        - customer
+      summary: Add a new customer to the store
+      description: Add a new Customer to the store
+      operationId: addCustomer
+      requestBody:
+        description: Create a new customer in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '405':
+          description: Invalid input
+
+  /customers/mail:
+    get:
+      tags:
+        - customer
+      summary: Get all customers in the mail box
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+  /customers/{customerId}/addresses:
+    get:
+      tags:
+        - customer
+      summary: get addresses by customer id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+        '400':
+          description: Invalid customer id
+  /customers/{customerId}/phoneNumbers:
+    get:
+      tags:
+        - customer
+      summary: get phones by customer id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Address'
+        '400':
+          description: Invalid customer id
+
+  /addresses:
+    get:
+      tags:
+        - address
+      summary: Get all addresses
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+  /addresses/{addressId}/customer:
+    get:
+      tags:
+        - address
+      summary: Find customer by address id
+      description: Provide the address id in the path variable
+      operationId: findCustomerByAddressId
+      parameters:
+        - name: addressId
+          in: path
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Invalid status value
+
+  /addresses/{addressId}:
+    get:
+      tags:
+        - address
+      summary: Find address by address id
+      description: Provide the customer id in the path variable
+      operationId: findAddressByAddressId
+      parameters:
+        - name: addressId
+          in: path
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Invalid status value
+    put:
+      tags:
+        - address
+      summary: Update an existing address
+      description: Update an existing address by Id
+      operationId: updateAddress
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update an existent Address in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+    delete:
+      tags:
+        - address
+      summary: delete customer by customer id
+      parameters:
+        - name: addressId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: address with given id does not exist
+  /addresses/customer/{customerId}:
+    delete:
+      tags:
+        - address
+      summary: delete address by customer id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+        '404':
+          description: customer with given id does not exist
+  /address:
+    post:
+      tags:
+        - address
+      summary: Add a new address to the store
+      description: Add a new Customer to the store
+      operationId: addAddress
+      requestBody:
+        description: Create a new address in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '405':
+          description: Invalid input
+
+  /phoneNumbers:
+    get:
+      tags:
+        - phone
+      summary: Get all phones
+      responses:
+        '200':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Customer'
+
+  /phoneNumbers/{phoneId}:
+    get:
+      tags:
+        - phone
+      summary: Find phone by phone id
+      description: Provide the phone id in the path variable
+      operationId: findPhoneByPhoneId
+      parameters:
+        - name: phoneId
+          in: path
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Customer'
+        '404':
+          description: Invalid phone id
+    put:
+      tags:
+        - phone
+      summary: Update existing phone by phone id
+      parameters:
+        - name: phoneId
+          in: path
+          description: Status values that need to be considered for filter
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        description: Update an existent phone in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Phone'
+        required: true
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid phone id
+    delete:
+      tags:
+        - phone
+      summary: delete phone by phone id
+      parameters:
+        - name: phoneId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid customer id
+
+  /phoneNumbers/customer/{customerId}:
+    delete:
+      tags:
+        - phone
+      summary: delete phone by customer id
+      parameters:
+        - name: customerId
+          in: path
+          required: true
+          schema:
+            type: integer
+      responses:
+        '200':
+          description: Successful operation
+        '404':
+          description: Invalid customer id
+  /phoneNumber:
+    post:
+      tags:
+        - phone
+      summary: Add a new Phone to the store
+      description: Add a new Phone to the store
+      operationId: addPhone
+      requestBody:
+        description: Create a new Phone in the store
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Customer'
+        required: true
+      responses:
+        '201':
+          description: Successful operation
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ApiResponse'
+        '405':
+          description: Invalid input
+components:
+  schemas:
+    Customer:
+      type: object
+      properties:
+        cusomerId:
+          type: integer
+          format: int64
+          example: 100000
+        firstName:
+          type: string
+          example: fehguy
+        lastName:
+          type: string
+          example: fehguy
+        userName:
+          type: string
+          example: fehguy
+        age:
+          type: integer
+        gender:
+          type: string
+        organizationName:
+          type: string
+        industry:
+          type: string
+    Address:
+      type: object
+      properties:
+        customerAddressId:
+          type: integer
+        customerId:
+          type: integer
+        addressLine1:
+          type: string
+          example: 437 Lytton
+        addressLine2:
+          type: string
+          example: Palo Alto
+        addressLine3:
+          type: string
+          example: Palo Alto
+        addressType:
+          type: string
+          example: CA
+        zip:
+          type: string
+          example: '94301'
+    Phone:
+      type: object
+      properties:
+        phoneId:
+          type: integer
+          format: int64
+          example: 1
+        customerId:
+          type: integer
+        areaCode:
+          type: integer
+        LocalNumber:
+          type: integer
+    ApiResponse:
+      type: object
+      properties:
+        code:
+          type: integer
+          format: int32
+        type:
+          type: string
+        message:
+          type: string
